@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Core.Schedule.ScheduleActivity">
+    tools:context=".core.schedule.ScheduleActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -29,37 +29,9 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            app:tabMode="scrollable"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:id="@+id/timetable_tabItem_pon"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/tab_timetable_pon" />-->
-
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:id="@+id/timetable_tabItem_wt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/tab_timetable_wt" />-->
-
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:id="@+id/timetable_tabItem_sr"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/tab_timetable_sr" />-->
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:id="@+id/timetable_tabItem_czw"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/tab_timetable_czw" />-->
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:id="@+id/timetable_tabItem_pt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/tab_timetable_pt" />-->
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable">
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>

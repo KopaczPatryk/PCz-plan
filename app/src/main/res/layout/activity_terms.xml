@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Core.Semester.SemestersActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".core.semester.SemestersActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -15,8 +15,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/termSelect"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </androidx.appcompat.widget.LinearLayoutCompat>

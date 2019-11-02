@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_terms.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.RecyclerViewClickListener
 import pl.kopsoft.pczplan.adapters.SemestersAdapter
@@ -18,29 +19,25 @@ import java.io.IOException
 
 
 class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerViewClickListener {
-    private var termList: RecyclerView? = null
     private var yearSemesters: List<Semester>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_terms)
-        termList = findViewById(R.id.termSelect)
         GetTerms(this).execute()
     }
 
-    override fun OnSemestersGet(semesters: List<Semester>) {
+    override fun onSemestersGet(semesters: List<Semester>) {
         yearSemesters = semesters
-        termList!!.adapter = SemestersAdapter(semesters, this)
+        termSelect.adapter = SemestersAdapter(semesters, this)
     }
 
-    override fun OnRecyclerItemClick(view: View, position: Int) {
+    override fun onRecyclerItemClick(view: View, position: Int) {
         val intent = Intent(this, GroupsActivity::class.java)
         intent.putExtra(GroupsActivity.TERM_BUNDLE_ID, yearSemesters!![position])
         startActivity(intent)
     }
 
-    internal class GetTerms(private val listener: GetSemestersListener) :
-        AsyncTask<Void, Void, List<Semester>>() {
-
+    internal class GetTerms(private val listener: GetSemestersListener) : AsyncTask<Void, Void, List<Semester>>() {
         override fun doInBackground(vararg voids: Void): List<Semester> {
             var document: Document? = null
             try {
@@ -48,30 +45,37 @@ class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerVie
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            var elements: Elements? = null
 
-            val e = document!!.select(".field-item > p")
-            //Log.d("jsoup", e.html());
+            document?.let {
+                elements = it.select(".field-item > p")
+                //Log.d("jsoup", e.html());
+            }
+
             val semesters = ArrayList<Semester>()
-            for (elem in e) {
-                if (!elem.text().contains("nauczycie")) {
-                    //Log.d("jsoup", elem.text());
+            elements?.let {
+                for (elem in it) {
+                    if (!elem.text().contains("nauczycie")) {
+                        //Log.d("jsoup", elem.text());
+                        val link = elem.select("a").attr("href")
+                        val t = Semester(
+                                termName = elem.text(),
+                                hyperLink = link,
+                                isStationary = !link.contains("niesta")
+                        )
 
-                    val t = Semester()
-                    t.TermName = elem.text()
-                    t.HyperLink = elem.select("a").attr("href")
-
-                    t.IsStationary = !t.HyperLink.toLowerCase().contains("niesta")
-
-                    Log.d("scraper", t.HyperLink)
-                    semesters.add(t)
+                        Log.d("scraper", t.hyperLink)
+                        semesters.add(t)
+                    }
                 }
             }
+
             return semesters
         }
 
         override fun onPostExecute(semesters: List<Semester>) {
             super.onPostExecute(semesters)
-            listener.OnSemestersGet(semesters)
+            listener.onSemestersGet(semesters)
         }
     }
 }

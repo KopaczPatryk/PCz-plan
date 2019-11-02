@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/row_container">
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="80dp"
@@ -16,14 +17,14 @@
             android:id="@+id/subject_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8:00"
+            tools:text="8:00"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
             android:id="@+id/subject_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LAB"
+            tools:text="LAB"
             android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 
@@ -32,24 +33,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="4dp">
+
         <TextView
             android:id="@+id/group_name"
-            android:text="Sztuczna inteligencja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            tools:text="Sztuczna inteligencja"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
         <TextView
             android:id="@+id/subject_teacher"
-            android:text="Woldan Piotr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            tools:text="Woldan Piotr"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
         <TextView
             android:id="@+id/subject_room"
-            android:text="s. 514"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            tools:text="s. 514"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
