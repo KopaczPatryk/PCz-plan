@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Wimi plan</string>
+    <string name="title_activity_subjects">SubjectsActivity</string>
+    <string name="title_activity_timetable">TimetableActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tab_timetable_pon">Pon</string>
+    <string name="tab_timetable_wt">Wt</string>
+    <string name="tab_timetable_sr">Śr</string>
+    <string name="tab_timetable_czw">Czw</string>
+    <string name="tab_timetable_pt">Pt</string>
+</resources>
