@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.semester_row.view.*
+import kotlinx.android.synthetic.main.row_semester.view.*
 
 import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.RecyclerViewClickListener
@@ -17,7 +17,7 @@ class SemestersAdapter(
         private var clickListener: RecyclerViewClickListener?) : RecyclerView.Adapter<SemestersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val itemView = LayoutInflater.from(viewGroup.context).inflate(R.layout.semester_row, viewGroup, false)
+        val itemView = LayoutInflater.from(viewGroup.context).inflate(R.layout.row_semester, viewGroup, false)
 
         return ViewHolder(itemView, clickListener)
     }

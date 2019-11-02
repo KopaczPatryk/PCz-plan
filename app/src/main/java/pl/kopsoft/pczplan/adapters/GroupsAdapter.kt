@@ -4,7 +4,7 @@ package pl.kopsoft.pczplan.adapters
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.group_row.view.*
+import kotlinx.android.synthetic.main.row_group.view.*
 import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.Group
@@ -12,7 +12,7 @@ import pl.kopsoft.pczplan.models.Group
 class GroupsAdapter(private val groups: List<Group>, private var clickListener: RecyclerViewClickListener?) : RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val v = View.inflate(viewGroup.context, R.layout.group_row, null)
+        val v = View.inflate(viewGroup.context, R.layout.row_group, null)
 //        val v = View.inflate(viewGroup.context, R.layout.group_row, viewGroup)
 //        LayoutInflater.from(viewGroup.context).inflate(R.layout.group_row, viewGroup, false)
 
