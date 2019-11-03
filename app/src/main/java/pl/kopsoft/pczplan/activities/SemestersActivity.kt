@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan.core.semester
+package pl.kopsoft.pczplan.activities
 
 import android.content.Intent
 import android.os.AsyncTask
@@ -11,14 +11,15 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.RecyclerViewClickListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.adapters.SemestersAdapter
-import pl.kopsoft.pczplan.core.group.GroupsActivity
+import pl.kopsoft.pczplan.interfaces.GetSemestersListener
 import pl.kopsoft.pczplan.models.Semester
 import java.io.IOException
 
 
-class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerViewClickListener {
+class SemestersActivity : AppCompatActivity(),
+    GetSemestersListener, RecyclerViewClickListener {
     private var yearSemesters: List<Semester>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

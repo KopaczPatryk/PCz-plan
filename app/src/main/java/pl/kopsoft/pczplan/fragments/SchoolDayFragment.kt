@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan.core.schedule.day
+package pl.kopsoft.pczplan.fragments
 
 
 import android.os.Bundle

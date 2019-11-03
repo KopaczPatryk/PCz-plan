@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan
+package pl.kopsoft.pczplan.interfaces
 
 
 import android.view.View

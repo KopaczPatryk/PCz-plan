@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan.core.schedule
+package pl.kopsoft.pczplan.activities
 
 
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_schedule.*
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.core.schedule.day.SchoolDayFragment
+import pl.kopsoft.pczplan.fragments.SchoolDayFragment
 import pl.kopsoft.pczplan.models.SchoolWeekSchedule
 
 class ScheduleActivity : AppCompatActivity() {

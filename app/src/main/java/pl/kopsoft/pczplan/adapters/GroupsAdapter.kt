@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row_group.view.*
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.RecyclerViewClickListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.Group
 
 class GroupsAdapter(private val groups: List<Group>, private var clickListener: RecyclerViewClickListener?) : RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {

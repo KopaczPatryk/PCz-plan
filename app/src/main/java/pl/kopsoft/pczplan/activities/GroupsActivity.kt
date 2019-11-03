@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan.core.group
+package pl.kopsoft.pczplan.activities
 
 
 import android.content.Intent
@@ -13,14 +13,16 @@ import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.LinkHelper
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.RecyclerViewClickListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.adapters.GroupsAdapter
-import pl.kopsoft.pczplan.core.schedule.ScheduleActivity
+import pl.kopsoft.pczplan.interfaces.GetGroupsListener
+import pl.kopsoft.pczplan.interfaces.GetSchoolWeekListener
 import pl.kopsoft.pczplan.models.*
 import java.io.IOException
 import java.util.*
 
-class GroupsActivity : AppCompatActivity(), GetGroupsListener, GetSchoolWeekListener, RecyclerViewClickListener {
+class GroupsActivity : AppCompatActivity(), GetGroupsListener,
+    GetSchoolWeekListener, RecyclerViewClickListener {
     private lateinit var retrievedGroups: List<Group>
     private lateinit var semester: Semester
 
@@ -71,7 +73,10 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener, GetSchoolWeekList
             }
 
         }
-        GetSchoolWeekSchedule(this, semester.isStationary).execute(fullLink)
+        GetSchoolWeekSchedule(
+            this,
+            semester.isStationary
+        ).execute(fullLink)
     }
 
     override fun onSchoolWeekReceived(timetable: SchoolWeekSchedule) {

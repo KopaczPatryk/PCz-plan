@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
-        <activity android:name=".core.semester.SemestersActivity">
+        <activity android:name=".activities.SemestersActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,22 +20,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.group.GroupsActivity"
+            android:name=".activities.GroupsActivity"
             android:label="@string/title_activity_subjects"
-            android:parentActivityName=".core.semester.SemestersActivity"
+            android:parentActivityName=".activities.SemestersActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".core.semester.SemestersActivity" />
+                android:value=".activities.SemestersActivity" />
         </activity>
         <activity
-            android:name=".core.schedule.ScheduleActivity"
+            android:name=".activities.ScheduleActivity"
             android:label="@string/title_activity_timetable"
-            android:parentActivityName=".core.group.GroupsActivity"
+            android:parentActivityName=".activities.GroupsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".core.group.GroupsActivity" />
+                android:value=".activities.GroupsActivity" />
         </activity>
 
     </application>

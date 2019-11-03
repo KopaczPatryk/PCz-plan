@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row_semester.view.*
 
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.RecyclerViewClickListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.Semester
 
 class SemestersAdapter(

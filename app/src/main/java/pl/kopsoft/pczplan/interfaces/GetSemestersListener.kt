@@ -1,4 +1,4 @@
-package pl.kopsoft.pczplan.core.semester
+package pl.kopsoft.pczplan.interfaces
 
 
 import pl.kopsoft.pczplan.models.Semester
