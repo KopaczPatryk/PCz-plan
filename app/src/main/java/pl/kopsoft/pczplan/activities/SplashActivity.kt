@@ -7,17 +7,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import kotlinx.android.synthetic.main.activity_splash.*
-import pl.kopsoft.pczplan.R
+
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(pl.kopsoft.pczplan.R.layout.activity_splash)
 
-        val bounce = AnimatorInflater.loadAnimator(this, R.animator.anim_bounce)
-        val makeVisible = AnimatorInflater.loadAnimator(this, R.animator.anim_makevisible)
-        val grow = AnimatorInflater.loadAnimator(this, R.animator.anim_grow)
+        val bounce = AnimatorInflater.loadAnimator(this, pl.kopsoft.pczplan.R.animator.anim_bounce)
+        val makeVisible =
+            AnimatorInflater.loadAnimator(this, pl.kopsoft.pczplan.R.animator.anim_makevisible)
+        val grow = AnimatorInflater.loadAnimator(this, pl.kopsoft.pczplan.R.animator.anim_grow)
 
         val shrinkAccent = AnimatorSet()
         shrinkAccent.play(bounce)
@@ -37,8 +38,11 @@ class SplashActivity : AppCompatActivity() {
         anim.playTogether(shrinkAccent, makeLogoVisible, growDark)
         anim.start()
         anim.doOnEnd {
-            val intent = Intent(this, SemestersActivity::class.java)
-            startActivity(intent)
+            Intent(this, SemestersActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }.also{
+                startActivity(it)
+            }
         }
     }
 }

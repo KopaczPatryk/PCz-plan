@@ -13,10 +13,10 @@ import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.LinkHelper
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.adapters.GroupsAdapter
 import pl.kopsoft.pczplan.interfaces.GetGroupsListener
 import pl.kopsoft.pczplan.interfaces.GetSchoolWeekListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.*
 import java.io.IOException
 import java.util.*
@@ -30,10 +30,10 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-        if (savedInstanceState != null) {
-            semester = savedInstanceState.getSerializable(TERM_BUNDLE_ID) as Semester
+        semester = if (savedInstanceState != null) {
+            savedInstanceState.getSerializable(TERM_BUNDLE_ID) as Semester
         } else {
-            semester = intent.getSerializableExtra(TERM_BUNDLE_ID) as Semester
+            intent.getSerializableExtra(TERM_BUNDLE_ID) as Semester
         }
         val hyperlink = LinkHelper.DOMAIN + semester.hyperLink
         GetGroups(this).execute(hyperlink)

@@ -7,10 +7,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/term_name"
+        android:id="@+id/row_label_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#eaeaea"
+        android:textSize="18sp"
         style="@style/Label"
         tools:text="Stacjonarne 2 stopień" />
 </androidx.appcompat.widget.LinearLayoutCompat>

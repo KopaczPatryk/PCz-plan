@@ -6,18 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.row_semester.view.*
+import kotlinx.android.synthetic.main.row_label.view.*
 
 import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.Semester
 
 class SemestersAdapter(
-        private val semesters: List<Semester>,
-        private var clickListener: RecyclerViewClickListener?) : RecyclerView.Adapter<SemestersAdapter.ViewHolder>() {
+    private val semesters: List<Semester>,
+    private var clickListener: RecyclerViewClickListener?
+) : RecyclerView.Adapter<SemestersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val itemView = LayoutInflater.from(viewGroup.context).inflate(R.layout.row_semester, viewGroup, false)
+        val itemView =
+            LayoutInflater.from(viewGroup.context).inflate(R.layout.row_label, viewGroup, false)
 
         return ViewHolder(itemView, clickListener)
     }
@@ -30,8 +32,9 @@ class SemestersAdapter(
         return semesters.size
     }
 
-    inner class ViewHolder(itemView: View, private val listener: RecyclerViewClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val termName: TextView = itemView.term_name
+    inner class ViewHolder(itemView: View, private val listener: RecyclerViewClickListener?) :
+        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        val termName: TextView = itemView.row_label_textview
 
         init {
             itemView.setOnClickListener(this)
