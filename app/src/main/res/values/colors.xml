@@ -7,4 +7,5 @@
     <color name="background">#363636</color>
     <color name="textColor">#eaeaea</color>
     <color name="accent">#C0FDFB</color>
+    <color name="ripple">#505050</color>
 </resources>

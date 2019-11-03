@@ -2,8 +2,10 @@ package pl.kopsoft.pczplan.activities
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import kotlinx.android.synthetic.main.activity_splash.*
 import pl.kopsoft.pczplan.R
 
@@ -34,6 +36,9 @@ class SplashActivity : AppCompatActivity() {
         val anim = AnimatorSet()
         anim.playTogether(shrinkAccent, makeLogoVisible, growDark)
         anim.start()
-
+        anim.doOnEnd {
+            val intent = Intent(this, SemestersActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

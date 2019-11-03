@@ -11,16 +11,17 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.R
-import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.adapters.SemestersAdapter
 import pl.kopsoft.pczplan.interfaces.GetSemestersListener
+import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.Semester
 import java.io.IOException
 
 
-class SemestersActivity : AppCompatActivity(),
-    GetSemestersListener, RecyclerViewClickListener {
-    private var yearSemesters: List<Semester>? = null
+class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerViewClickListener {
+
+    private lateinit var yearSemesters: List<Semester>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_terms)
@@ -29,16 +30,17 @@ class SemestersActivity : AppCompatActivity(),
 
     override fun onSemestersGet(semesters: List<Semester>) {
         yearSemesters = semesters
-        termSelect.adapter = SemestersAdapter(semesters, this)
+        semester_select.adapter = SemestersAdapter(semesters, this)
     }
 
     override fun onRecyclerItemClick(view: View, position: Int) {
         val intent = Intent(this, GroupsActivity::class.java)
-        intent.putExtra(GroupsActivity.TERM_BUNDLE_ID, yearSemesters!![position])
+        intent.putExtra(GroupsActivity.TERM_BUNDLE_ID, yearSemesters[position])
         startActivity(intent)
     }
 
-    internal class GetTerms(private val listener: GetSemestersListener) : AsyncTask<Void, Void, List<Semester>>() {
+    internal class GetTerms(private val listener: GetSemestersListener) :
+        AsyncTask<Void, Void, List<Semester>>() {
         override fun doInBackground(vararg voids: Void): List<Semester> {
             var document: Document? = null
             try {
@@ -60,9 +62,9 @@ class SemestersActivity : AppCompatActivity(),
                         //Log.d("jsoup", elem.text());
                         val link = elem.select("a").attr("href")
                         val t = Semester(
-                                termName = elem.text(),
-                                hyperLink = link,
-                                isStationary = !link.contains("niesta")
+                            termName = elem.text(),
+                            hyperLink = link,
+                            isStationary = !link.contains("niesta")
                         )
 
                         Log.d("scraper", t.hyperLink)

@@ -15,10 +15,17 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/corbel</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Label" parent="AppTheme.NoActionBar">
+        <item name="android:layout_margin">20sp</item>
+        <item name="android:background">@null</item>
+    </style>
 
 </resources>
