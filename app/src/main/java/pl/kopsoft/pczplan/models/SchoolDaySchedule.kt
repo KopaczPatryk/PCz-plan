@@ -35,4 +35,8 @@ class SchoolDaySchedule : Serializable {
             }
         }
     }
+
+    fun addSubject(subject: Subject) {
+        subjects.add(subject)
+    }
 }

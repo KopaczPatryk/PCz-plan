@@ -16,10 +16,7 @@ import pl.kopsoft.pczplan.adapters.GroupsAdapter
 import pl.kopsoft.pczplan.interfaces.GetGroupsListener
 import pl.kopsoft.pczplan.interfaces.GetSchoolWeekListener
 import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
-import pl.kopsoft.pczplan.models.Group
-import pl.kopsoft.pczplan.models.SchoolDaySchedule
-import pl.kopsoft.pczplan.models.SchoolWeekSchedule
-import pl.kopsoft.pczplan.models.Semester
+import pl.kopsoft.pczplan.models.*
 import java.io.IOException
 
 fun Elements.getDay(id: Int, stationary: Boolean): SchoolDaySchedule {
@@ -194,19 +191,28 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
                     hours.add(rows[i].child(0).html())
                 }
 
-
                 for (day in 0 until daysCount) {
                     subjectCells.add(ArrayList())
 
                     for (subject in 0 until subjectCount) {
                         rows[subject + 1].child(day + 1).html()?.let {
-                            if (it != "&nbsp;")
-                                subjectCells[day].add(it)
+                            subjectCells[day].add(it)
                         }
                     }
                 }
-                var x = 0
-                x++
+                for (day in 0 until daysCount) {
+                    val daySchedule = SchoolDaySchedule()
+                    daySchedule.dayOfWeek = headers[day]
+                    for (subject in 0 until  subjectCount) {
+                        val s =Subject().apply {
+                            hourStart
+                        }
+
+                        daySchedule.addSubject(s)
+                    }
+
+                    weekSchedule.addDay(daySchedule)
+                }
 
 //
 //                for (column in 1 until rows[0].children().size) {

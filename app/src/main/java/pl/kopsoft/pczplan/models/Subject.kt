@@ -11,6 +11,7 @@ class Subject : Serializable {
     var room: String? = null
 
 
+
     fun isEmpty(): Boolean {
         subjectName?.let {
             return it.isEmpty()
