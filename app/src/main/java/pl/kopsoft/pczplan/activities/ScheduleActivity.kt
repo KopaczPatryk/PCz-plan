@@ -17,26 +17,13 @@ class ScheduleActivity : AppCompatActivity() {
     private var schedule = SchoolWeekSchedule()
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-
     private var mViewPager: ViewPager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
         schedule = intent.getSerializableExtra(ARG_WEEK_SCHEDULE) as SchoolWeekSchedule
-        //        schedule.daySchedules = new ArrayList<>();
-        //        SchoolDaySchedule daySchedule = new SchoolDaySchedule();
-        //        daySchedule.SetTestData();
-        //        schedule.daySchedules.add(daySchedule);
-        //        schedule.daySchedules.add(daySchedule);
-        //        schedule.daySchedules.add(daySchedule);
-        //        schedule.daySchedules.add(daySchedule);
-        //        schedule.daySchedules.add(daySchedule);
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
@@ -51,11 +38,6 @@ class ScheduleActivity : AppCompatActivity() {
 
         mViewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(mViewPager))
-
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

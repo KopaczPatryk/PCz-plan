@@ -12,43 +12,25 @@ class SchoolDaySchedule : Serializable {
         subjects = ArrayList()
     }
 
-    fun SetTestData() {
-        //dayOfWeek = "Pon";
-        val s = Subject()
-        s.SetTestData()
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-        subjects.add(s)
-    }
-
     fun trimEmptySubjects() {
         var lowerBound = 0
         var upperBound = 0
         for (i in subjects.indices) {
-            if (!subjects[i].IsEmpty()) {
+            if (!subjects[i].isEmpty()) {
                 lowerBound = i
                 break
             }
         }
         for (i in subjects.size - 1 downTo lowerBound) {
-            if (!subjects[i].IsEmpty()) {
+            if (!subjects[i].isEmpty()) {
                 upperBound = i + 1
                 break
             }
         }
-        //        if(lowerBound > upperBound)
-        //        {
-        //            Log.e("subject_trim", "bound mismatch");
-        //
-        //        }
+
         subjects = ArrayList(subjects.subList(lowerBound, upperBound))
         for (i in subjects.indices) {
-            if (subjects[i].IsEmpty()) {
+            if (subjects[i].isEmpty()) {
                 subjects[i].type = SubjectType.Gap
             }
         }

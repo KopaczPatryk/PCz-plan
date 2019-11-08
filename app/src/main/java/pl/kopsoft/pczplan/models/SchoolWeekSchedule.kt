@@ -11,4 +11,8 @@ class SchoolWeekSchedule : Serializable {
             daySchedules[i].trimEmptySubjects()
         }
     }
+
+    fun addDay(day: SchoolDaySchedule) {
+        daySchedules.add(day)
+    }
 }
