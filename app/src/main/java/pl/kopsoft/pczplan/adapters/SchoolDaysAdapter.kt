@@ -14,7 +14,7 @@ import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.models.SchoolDaySchedule
 import pl.kopsoft.pczplan.models.SubjectType
 
-class SchoolDaysAdapter(private val mValues: SchoolDaySchedule) :
+class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
     RecyclerView.Adapter<SchoolDaysAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +25,7 @@ class SchoolDaysAdapter(private val mValues: SchoolDaySchedule) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val subject = mValues.subjects[position]
+        val subject = daySchedule.subjects[position]
         when (subject.type) {
             SubjectType.Laboratory -> {
                 holder.subjectType.text = "Labka"
@@ -50,12 +50,13 @@ class SchoolDaysAdapter(private val mValues: SchoolDaySchedule) :
         }
         holder.startHour.text = subject.hourStart
         holder.subjectName.text = subject.subjectName
+
         holder.subjectTeacher.text = subject.teacher
         holder.subjectRoom.text = subject.room
     }
 
     override fun getItemCount(): Int {
-        return mValues.subjects.size
+        return daySchedule.subjects.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

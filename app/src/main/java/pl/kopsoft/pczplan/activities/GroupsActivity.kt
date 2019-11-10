@@ -11,49 +11,13 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.LinkHelper
-import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.adapters.GroupsAdapter
 import pl.kopsoft.pczplan.interfaces.GetGroupsListener
 import pl.kopsoft.pczplan.interfaces.GetSchoolWeekListener
 import pl.kopsoft.pczplan.interfaces.RecyclerViewClickListener
 import pl.kopsoft.pczplan.models.*
 import java.io.IOException
-
-fun Elements.getDay(id: Int, stationary: Boolean): SchoolDaySchedule {
-    val daySchedule = SchoolDaySchedule()
-    val name = this.dayName(id, stationary)
-
-//    var subjects: List<Subject> = this.subjects(id)
-
-    daySchedule.dayOfWeek = name
-    return daySchedule
-}
-
-fun Elements.dayName(id: Int, stationary: Boolean): String {
-    val cell = this[0].child(id + 1)
-    return if (stationary)
-        cell.text().takeLast(3)
-    else {
-        cell.html().split("<br>").joinToString(separator = " ") { it }
-    }
-}
-
-fun Elements.hour(id: Int): String {
-    val cell = this[id + 1].child(0)
-
-    return cell.html().split("<br>").last { it.isNotEmpty() }
-}
-
-//fun Elements.subjects(day: Int): List<Subject> {
-//    val subjectCount = this.size
-//    for (hourId in 1 until subjectCount) {
-//
-//    }
-//}
-//
-//fun Elements.subject(): Subject {
-//
-//}
+import java.util.regex.Pattern
 
 class GroupsActivity : AppCompatActivity(), GetGroupsListener,
     GetSchoolWeekListener, RecyclerViewClickListener {
@@ -62,7 +26,7 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_groups)
+        setContentView(pl.kopsoft.pczplan.R.layout.activity_groups)
 
         semester = if (savedInstanceState != null) {
             savedInstanceState.getSerializable(TERM_BUNDLE_ID) as Semester
@@ -176,14 +140,16 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
                 val hours: ArrayList<String> = ArrayList()
 
                 val subjectCells = arrayListOf<ArrayList<String>>()
-//                for (i in 0..subjectCells.size) {
-//                    subjectCells[i] = ArrayList()
-//                }
 
                 //get header htmls
                 val allHeaders = rows.first().select("td")
                 for (i in 1..daysCount) {
-                    headers.add(allHeaders[i].html())
+                    if (isStationary) {
+                        headers.add(allHeaders[i].text().take(3))
+                    } else {
+                        val header = allHeaders[i].html().replace(NEW_LINE, " ")
+                        headers.add(header)
+                    }
                 }
 
                 //get hours htmls
@@ -200,89 +166,51 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
                         }
                     }
                 }
-                for (day in 0 until daysCount) {
-                    val daySchedule = SchoolDaySchedule()
-                    daySchedule.dayOfWeek = headers[day]
-                    for (subject in 0 until  subjectCount) {
-                        val s =Subject().apply {
-                            hourStart
-                        }
 
-                        daySchedule.addSubject(s)
+                val startHourPattern = Pattern.compile("(\\d+[.:;]\\d+) ?-")
+                subjectCells.forEachIndexed { di, day ->
+                    val daySchedule = SchoolDaySchedule().apply {
+                        this.dayOfWeek = headers[di]
                     }
 
+                    day.forEachIndexed { si, subject ->
+                        val strings = subject.split(NEW_LINE)
+
+                        var name = if (strings.count() >= 1) strings.first() else ""
+                        if (name == EMPTY_LINE)
+                            name = ""
+
+                        val teacher = if (strings.count() >= 2) strings[1] else ""
+                        val where = if (strings.count() >= 3) strings.last() else ""
+                        val type = when {
+                            name.contains("wyk.", true) -> SubjectType.Lecture
+                            name.contains("lec.", true) -> SubjectType.Lecture
+                            name.contains("lab.", true) -> SubjectType.Laboratory
+                            name.contains("ćw.", true) -> SubjectType.Exercise
+                            name.contains("exe.", true) -> SubjectType.Exercise
+                            name.isEmpty() -> SubjectType.Freiheit
+                            else -> SubjectType.Freiheit
+                        }
+
+                        var hour = ""
+                        val m = startHourPattern.matcher(hours[si])
+                        if (m.find()) {
+                            m.group(1)?.let {
+                                hour = it
+                            }
+                        }
+
+                        val subjectObject = Subject(
+                            hourStart = hour,
+                            subjectName = name,
+                            teacher = teacher,
+                            type = type,
+                            room = where
+                        )
+                        daySchedule.addSubject(subjectObject)
+                    }
                     weekSchedule.addDay(daySchedule)
                 }
-
-//
-//                for (column in 1 until rows[0].children().size) {
-//                    val day = SchoolDaySchedule()
-//                    if (isStationary) {
-//                        day.dayOfWeek = rows[0].child(column).text().substring(0, 3)
-//                    } else {
-//                        val dayName =
-//                            rows[0].child(column).html().split("<br>").dropLastWhile { it.isEmpty() }.toTypedArray()[0] + " " + rows[0].child(
-//                                column
-//                            ).html().split("<br>".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].substring(
-//                                0,
-//                                3
-//                            )
-//
-//                        day.dayOfWeek = dayName
-//                    }
-//                    for (y in 1 until rows.size) {
-//                        val s = Subject()
-//                        day.subjects.add(s)
-//
-//                        val hour = rows[y].child(0).text()
-//                        Log.i("scraped", hour)
-//                        val split =
-//                            hour.split(" ".toRegex()).dropLastWhile { it.isEmpty() }
-//                                .toTypedArray()
-//                        s.hourStart =
-//                            split[1].split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-//
-//                        //subject name
-//                        val cellText = rows[y].child(column).html()
-//                        if (cellText != "&nbsp;") {
-//
-//                            //split("[\\w.]+\\.");
-//                            val cellSplit =
-//                                cellText.split("<br>".toRegex()).dropLastWhile { it.isEmpty() }
-//                                    .toTypedArray()
-//                            cellSplit[0] = cellSplit[0].trim()
-//                            if (cellSplit[0].toLowerCase(Locale.ROOT).contains("wyk") || cellSplit[0].toLowerCase(
-//                                    Locale.ROOT
-//                                ).contains("lab") || cellSplit[0].toLowerCase(Locale.ROOT).contains(
-//                                    "cw"
-//                                )
-//                            ) {
-//                                val subjectName =
-//                                    cellSplit[0].substring(0, cellSplit[0].lastIndexOf(' '))
-//                                s.subjectName = subjectName.trim()
-//                            } else {
-//                                val subjectName = cellSplit[0]
-//                                s.subjectName = subjectName.trim()
-//                            }
-//
-//                            when {
-//                                cellSplit[0].toLowerCase(Locale.ROOT).contains("wyk") -> s.type =
-//                                    SubjectType.Lecture
-//                                cellSplit[0].toLowerCase(Locale.ROOT).contains("lab") -> s.type =
-//                                    SubjectType.Laboratory
-//                                cellSplit[0].toLowerCase(Locale.ROOT).contains("ćw") -> s.type =
-//                                    SubjectType.Exercise
-//                            }
-//                            if (cellSplit.size > 1) {
-//                                s.teacher = cellSplit[1]
-//                            }
-//                            if (cellSplit.size > 2) {
-//                                s.room = cellSplit[cellSplit.size - 1]
-//                            }
-//                        }
-//                    }
-//                    weekSchedule.addDay(day)
-//                }
             }
 
             return weekSchedule
@@ -297,5 +225,11 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
     companion object {
         @JvmStatic
         val TERM_BUNDLE_ID = "hyperlinksuffix"
+
+        @JvmStatic
+        val NEW_LINE = "<br>"
+
+        @JvmStatic
+        val EMPTY_LINE = "&nbsp;"
     }
 }
