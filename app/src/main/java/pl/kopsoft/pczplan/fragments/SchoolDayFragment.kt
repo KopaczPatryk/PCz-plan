@@ -22,16 +22,26 @@ class SchoolDayFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_schoolday_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         daySchedule?.let {
-            schoolday_recycler.adapter = SchoolDaysAdapter(it)
+            if (!it.isFreeDay()) {
+                happy_face_label.visibility = View.GONE
+                schoolday_recycler.adapter = SchoolDaysAdapter(it)
+            } else {
+                happy_face_label.visibility = View.VISIBLE
+            }
         }
     }
+
     companion object {
         @JvmStatic
         private val ARG_DAY_SCHEDULE = "daySchedule"

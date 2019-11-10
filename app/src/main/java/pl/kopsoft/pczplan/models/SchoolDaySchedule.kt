@@ -34,6 +34,11 @@ class SchoolDaySchedule : Serializable {
                 subjects[i].type = SubjectType.Gap
             }
         }
+        subjects.trimToSize()
+    }
+
+    fun isFreeDay(): Boolean {
+        return subjects.isEmpty()
     }
 
     fun addSubject(subject: Subject) {
