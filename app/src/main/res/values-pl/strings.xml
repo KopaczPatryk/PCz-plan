@@ -7,4 +7,7 @@
     <string name="groups_find_group">Odszukaj grupę</string>
     <string name="terms_term_types">Typy studiów</string>
     <string name="day_free">Dzień wolny!</string>
+    <string name="subjecttype_sem">Semin.</string>
+    <string name="subjecttype_proj">Proj.</string>
+    <string name="subjecttype_lang">J. obcy</string>
 </resources>

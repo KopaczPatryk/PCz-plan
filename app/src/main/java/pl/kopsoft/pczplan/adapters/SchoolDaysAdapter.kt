@@ -23,8 +23,14 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subject = daySchedule.subjects[position]
+
         val colorLab = ContextCompat.getColor(holder.itemView.context, R.color.subject_lab)
+        val colorExe = ContextCompat.getColor(holder.itemView.context, R.color.subject_exe)
         val colorLect = ContextCompat.getColor(holder.itemView.context, R.color.subject_lec)
+        val colorSem = ContextCompat.getColor(holder.itemView.context, R.color.subject_sem)
+        val colorProj = ContextCompat.getColor(holder.itemView.context, R.color.subject_proj)
+        val colorLang = ContextCompat.getColor(holder.itemView.context, R.color.subject_lang)
+
         when (subject.type) {
             SubjectType.Laboratory -> {
                 holder.subjectType.setText(R.string.subjecttype_lab)
@@ -32,7 +38,7 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
             }
             SubjectType.Exercise -> {
                 holder.subjectType.setText(R.string.subjecttype_exe)
-                holder.subjectType.setBackgroundColor(colorLab)
+                holder.subjectType.setBackgroundColor(colorExe)
             }
             SubjectType.Lecture -> {
                 holder.subjectType.setText(R.string.subjecttype_lect)
@@ -43,6 +49,18 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
             }
             SubjectType.Gap -> {
                 holder.subjectType.setText(R.string.subjecttype_gap)
+            }
+            SubjectType.Seminary -> {
+                holder.subjectType.setText(R.string.subjecttype_sem)
+                holder.subjectType.setBackgroundColor(colorSem)
+            }
+            SubjectType.GroupProject -> {
+                holder.subjectType.setText(R.string.subjecttype_proj)
+                holder.subjectType.setBackgroundColor(colorProj)
+            }
+            SubjectType.Lang -> {
+                holder.subjectType.setText(R.string.subjecttype_lang)
+                holder.subjectType.setBackgroundColor(colorLang)
             }
         }
         holder.startHour.text = subject.hourStart

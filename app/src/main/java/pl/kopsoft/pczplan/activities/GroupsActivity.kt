@@ -168,6 +168,14 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
                 }
 
                 val startHourPattern = Pattern.compile("(\\d+[.:;]\\d+) ?-")
+
+                val laboratoryPattern = Pattern.compile("lab[. ]?", Pattern.CASE_INSENSITIVE)
+                val lecturePattern = Pattern.compile("(?:lec(?:ture)?|wyk)[. ]?", Pattern.CASE_INSENSITIVE)
+                val exercisePattern = Pattern.compile("(?:exe(?:rcise)?|[cć]w(?:iczenia)?)[. ]?", Pattern.CASE_INSENSITIVE)
+                val gprojPattern = Pattern.compile("proj[. ]?", Pattern.CASE_INSENSITIVE)
+                val seminaryPattern = Pattern.compile("sem[. ]?", Pattern.CASE_INSENSITIVE)
+                val langPattern = Pattern.compile("sjo[. ]?", Pattern.CASE_INSENSITIVE)
+
                 subjectCells.forEachIndexed { di, day ->
                     val daySchedule = SchoolDaySchedule().apply {
                         this.dayOfWeek = headers[di]
@@ -183,11 +191,12 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
                         val teacher = if (strings.count() >= 2) strings[1] else ""
                         val where = if (strings.count() >= 3) strings.last() else ""
                         val type = when {
-                            name.contains("wyk.", true) -> SubjectType.Lecture
-                            name.contains("lec.", true) -> SubjectType.Lecture
-                            name.contains("lab.", true) -> SubjectType.Laboratory
-                            name.contains("ćw.", true) -> SubjectType.Exercise
-                            name.contains("exe.", true) -> SubjectType.Exercise
+                            laboratoryPattern.matcher(name).find() -> SubjectType.Laboratory
+                            lecturePattern.matcher(name).find() -> SubjectType.Lecture
+                            exercisePattern.matcher(name).find() -> SubjectType.Exercise
+                            gprojPattern.matcher(name).find() -> SubjectType.GroupProject
+                            seminaryPattern.matcher(name).find() -> SubjectType.Seminary
+                            langPattern.matcher(subject).find() -> SubjectType.Lang
                             name.isEmpty() -> SubjectType.Freiheit
                             else -> SubjectType.Freiheit
                         }

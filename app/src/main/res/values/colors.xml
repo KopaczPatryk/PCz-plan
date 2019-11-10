@@ -10,6 +10,12 @@
     <color name="transparent">#00000000</color>
 
     <color name="subject_lec">#558564</color>
+    <color name="subject_sem">#558564</color>
+
     <color name="subject_lab">#56638a</color>
+    <color name="subject_exe">#56638a</color>
+
+    <color name="subject_proj">#9B9743</color>
+    <color name="subject_lang">#802222</color>
 
 </resources>

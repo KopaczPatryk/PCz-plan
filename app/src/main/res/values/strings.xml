@@ -6,4 +6,7 @@
     <string name="groups_find_group">Find group</string>
     <string name="terms_term_types">Study types</string>
     <string name="day_free">Day off!</string>
+    <string name="subjecttype_sem">Semin.</string>
+    <string name="subjecttype_proj">Proj.</string>
+    <string name="subjecttype_lang">Lang.</string>
 </resources>
