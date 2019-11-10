@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">PCz plan</string>
     <string name="subjecttype_lab">Lab.</string>
     <string name="subjecttype_lect">Lect.</string>
     <string name="subjecttype_exe">Exe.</string>
