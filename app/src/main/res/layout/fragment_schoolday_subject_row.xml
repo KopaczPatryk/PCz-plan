@@ -1,60 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="@drawable/item_background"
+    android:clickable="true"
+    android:padding="@dimen/margin"
+    android:focusable="true">
 
-    <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/subject_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toTopOf="@+id/subject_type"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="8:00" />
 
-        <TextView
-            android:id="@+id/subject_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="8:00"
-            android:textAppearance="?attr/textAppearanceListItem" />
+    <TextView
+        android:id="@+id/subject_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subject_duration"
+        tools:text="LAB" />
 
-        <TextView
-            android:id="@+id/subject_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="LAB"
-            android:textAppearance="?attr/textAppearanceListItem" />
-    </LinearLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/subject_room"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/subject_teacher"
+        tools:text="s. 514" />
+
+    <TextView
+        android:id="@+id/subject_teacher"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toTopOf="@+id/subject_room"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/group_name"
+        tools:text="Woldan Piotr" />
+
+    <TextView
+        android:id="@+id/group_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toTopOf="@+id/subject_teacher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Sztuczna inteligencja" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="4dp">
+        app:layout_constraintGuide_begin="90dp" />
 
-        <TextView
-            android:id="@+id/group_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Sztuczna inteligencja"
-            android:textAppearance="?attr/textAppearanceListItem" />
-
-        <TextView
-            android:id="@+id/subject_teacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Woldan Piotr"
-            android:textAppearance="?attr/textAppearanceListItem" />
-
-        <TextView
-            android:id="@+id/subject_room"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="s. 514"
-            android:textAppearance="?attr/textAppearanceListItem" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

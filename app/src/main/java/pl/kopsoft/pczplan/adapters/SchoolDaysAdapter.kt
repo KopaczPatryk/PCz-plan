@@ -2,12 +2,11 @@ package pl.kopsoft.pczplan.adapters
 
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_schoolday_subject_row.view.*
 import pl.kopsoft.pczplan.R
@@ -26,31 +25,30 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subject = daySchedule.subjects[position]
+        val colorLab = ContextCompat.getColor(holder.itemView.context, R.color.subject_lab)
+        val colorLect = ContextCompat.getColor(holder.itemView.context, R.color.subject_lec)
         when (subject.type) {
             SubjectType.Laboratory -> {
                 holder.subjectType.text = "Labka"
-                holder.subjectLayout.setBackgroundColor(Color.parseColor("#a5d8ff"))
+                holder.subjectType.setBackgroundColor(colorLab)
             }
             SubjectType.Exercise -> {
                 holder.subjectType.text = "Ćw"
-                holder.subjectLayout.setBackgroundColor(Color.parseColor("#a5d8ff"))
+                holder.subjectType.setBackgroundColor(colorLab)
             }
             SubjectType.Lecture -> {
                 holder.subjectType.text = "Wykład"
-                holder.subjectLayout.setBackgroundColor(Color.parseColor("#b1dda6"))
+                holder.subjectType.setBackgroundColor(colorLect)
             }
             SubjectType.Freiheit -> {
                 holder.subjectType.text = ""
-                holder.subjectLayout.setBackgroundColor(Color.parseColor("#a5d8ff"))
             }
             SubjectType.Gap -> {
                 holder.subjectType.text = "Okienko"
-                holder.subjectName.text = "Przykro mi"
             }
         }
         holder.startHour.text = subject.hourStart
         holder.subjectName.text = subject.subjectName
-
         holder.subjectTeacher.text = subject.teacher
         holder.subjectRoom.text = subject.room
     }
@@ -60,7 +58,7 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subjectLayout: LinearLayout = itemView.row_container
+        val subjectLayout: ViewGroup = itemView.row_container
         val subjectType: TextView = itemView.subject_type
         val startHour: TextView = itemView.subject_duration
         val subjectName: TextView = itemView.group_name

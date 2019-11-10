@@ -8,4 +8,8 @@
     <color name="accent">#C0FDFB</color>
     <color name="ripple">#505050</color>
     <color name="transparent">#00000000</color>
+
+    <color name="subject_lec">#558564</color>
+    <color name="subject_lab">#56638a</color>
+
 </resources>
