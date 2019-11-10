@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">PCz plan</string>
-    <string name="action_settings">Settings</string>
-    <string name="tab_timetable_pon">Pon</string>
-    <string name="tab_timetable_wt">Wt</string>
-    <string name="tab_timetable_sr">Śr</string>
-    <string name="tab_timetable_czw">Czw</string>
-    <string name="tab_timetable_pt">Pt</string>
+    <string name="app_name" translatable="false">PCz plan</string>
+    <string name="subjecttype_lab">Lab.</string>
+    <string name="subjecttype_lect">Lect.</string>
+    <string name="subjecttype_exe">Exe.</string>
+    <string name="subjecttype_gap">Gap</string>
+    <string name="groups_find_group">Find group</string>
+    <string name="terms_term_types">Study types</string>
 </resources>

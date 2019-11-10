@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="subjecttype_exe">Ćw.</string>
+    <string name="subjecttype_gap">Okno</string>
+    <string name="subjecttype_lab">Labki</string>
+    <string name="subjecttype_lect">Wykład</string>
+    <string name="groups_find_group">Odszukaj grupę</string>
+    <string name="terms_term_types">Typy studiów</string>
+</resources>

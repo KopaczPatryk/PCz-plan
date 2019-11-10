@@ -1,7 +1,6 @@
 package pl.kopsoft.pczplan.adapters
 
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,29 +21,28 @@ class SchoolDaysAdapter(private val daySchedule: SchoolDaySchedule) :
         return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subject = daySchedule.subjects[position]
         val colorLab = ContextCompat.getColor(holder.itemView.context, R.color.subject_lab)
         val colorLect = ContextCompat.getColor(holder.itemView.context, R.color.subject_lec)
         when (subject.type) {
             SubjectType.Laboratory -> {
-                holder.subjectType.text = "Labka"
+                holder.subjectType.setText(R.string.subjecttype_lab)
                 holder.subjectType.setBackgroundColor(colorLab)
             }
             SubjectType.Exercise -> {
-                holder.subjectType.text = "Ćw"
+                holder.subjectType.setText(R.string.subjecttype_exe)
                 holder.subjectType.setBackgroundColor(colorLab)
             }
             SubjectType.Lecture -> {
-                holder.subjectType.text = "Wykład"
+                holder.subjectType.setText(R.string.subjecttype_lect)
                 holder.subjectType.setBackgroundColor(colorLect)
             }
             SubjectType.Freiheit -> {
                 holder.subjectType.text = ""
             }
             SubjectType.Gap -> {
-                holder.subjectType.text = "Okienko"
+                holder.subjectType.setText(R.string.subjecttype_gap)
             }
         }
         holder.startHour.text = subject.hourStart
