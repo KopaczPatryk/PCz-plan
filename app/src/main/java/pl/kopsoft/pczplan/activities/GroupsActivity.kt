@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_groups.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import pl.kopsoft.pczplan.LinkHelper
+import pl.kopsoft.pczplan.R
 import pl.kopsoft.pczplan.adapters.GroupsAdapter
 import pl.kopsoft.pczplan.interfaces.GetGroupsListener
 import pl.kopsoft.pczplan.interfaces.GetSchoolWeekListener
@@ -19,22 +19,32 @@ import pl.kopsoft.pczplan.models.*
 import java.io.IOException
 import java.util.regex.Pattern
 
-class GroupsActivity : AppCompatActivity(), GetGroupsListener,
-    GetSchoolWeekListener, RecyclerViewClickListener {
-    private lateinit var retrievedGroups: List<Group>
+class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListener, RecyclerViewClickListener {
+    private var retrievedGroups: List<Group>? = null
     private lateinit var semester: Semester
+
+    private var pendingScheduleLink: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(pl.kopsoft.pczplan.R.layout.activity_groups)
+        setContentView(R.layout.activity_groups)
 
-        semester = if (savedInstanceState != null) {
-            savedInstanceState.getSerializable(TERM_BUNDLE_ID) as Semester
-        } else {
-            intent.getSerializableExtra(TERM_BUNDLE_ID) as Semester
+        intent?.getSerializableExtra(TERM_BUNDLE_ID)?.let {
+            semester = it as Semester
         }
-        val hyperlink = LinkHelper.DOMAIN + semester.hyperLink
-        GetGroups(this).execute(hyperlink)
+    }
+
+    override fun onNetworkAvailable() {
+        super.onNetworkAvailable()
+        if (retrievedGroups == null) {
+            GetGroups(this).execute(LinkHelper.DOMAIN + semester.hyperLink)
+        } else if (!pendingScheduleLink.isNullOrEmpty()) {
+            GetSchoolWeekSchedule(
+                this,
+                semester.isStationary
+            ).execute(pendingScheduleLink)
+            pendingScheduleLink = null
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -45,7 +55,6 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         semester = savedInstanceState.getSerializable(TERM_BUNDLE_ID) as Semester
         super.onRestoreInstanceState(savedInstanceState)
-
     }
 
     override fun onGroupsGet(groups: List<Group>) {
@@ -62,19 +71,21 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
     }
 
     override fun onRecyclerItemClick(view: View, position: Int) {
-        var fullLink: String
-        retrievedGroups.let {
-            fullLink = if (semester.isStationary) {
+        retrievedGroups?.let {
+            val link = if (semester.isStationary) {
                 LinkHelper.STATIONARY_TTS + "/" + it[position].hyperlink
             } else {
                 LinkHelper.NONSTATIONARY_TTS + "/" + it[position].hyperlink
             }
-
+            if (isConnected()) {
+                GetSchoolWeekSchedule(
+                    this,
+                    semester.isStationary
+                ).execute(link)
+            } else {
+                pendingScheduleLink = link
+            }
         }
-        GetSchoolWeekSchedule(
-            this,
-            semester.isStationary
-        ).execute(fullLink)
     }
 
     override fun onSchoolWeekReceived(timetable: SchoolWeekSchedule) {
@@ -90,21 +101,21 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
         override fun doInBackground(vararg hyperlinks: String): List<Group> {
             var document: Document? = null
             try {
-                document = Jsoup.connect(hyperlinks[0]).timeout(30000).get()
+                document = Jsoup.connect(hyperlinks[0]).timeout(5000).get()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
-            assert(document != null)
-            val elements = document!!.select("td > a")
             val groups = ArrayList<Group>()
-            for (element in elements) {
-                val g = Group(
-                    groupName = element.text(),
-                    hyperlink = element.attr("href")
-                )
 
-                groups.add(g)
+            document?.let {
+                val elements = it.select("td > a")
+                for (element in elements) {
+                    val g = Group(
+                        groupName = element.text(),
+                        hyperlink = element.attr("href")
+                    )
+                    groups.add(g)
+                }
             }
             return groups
         }
@@ -125,7 +136,7 @@ class GroupsActivity : AppCompatActivity(), GetGroupsListener,
             try {
                 document = Jsoup.connect(strings[0]).timeout(5000).get()
             } catch (e: IOException) {
-                e.printStackTrace()
+
             }
 
             val weekSchedule = SchoolWeekSchedule()

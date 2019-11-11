@@ -10,4 +10,5 @@
     <string name="subjecttype_sem">Semin.</string>
     <string name="subjecttype_proj">Proj.</string>
     <string name="subjecttype_lang">J. obcy</string>
+    <string name="no_internet">Brak połączenia z internetem</string>
 </resources>

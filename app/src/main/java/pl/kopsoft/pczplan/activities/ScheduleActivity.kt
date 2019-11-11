@@ -16,36 +16,29 @@ import pl.kopsoft.pczplan.models.SchoolWeekSchedule
 class ScheduleActivity : AppCompatActivity() {
     private var schedule = SchoolWeekSchedule()
 
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    private var mViewPager: ViewPager? = null
+    private lateinit var daySchedulePagerAdapter: DaySchedulePagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
-        schedule = intent.getSerializableExtra(ARG_WEEK_SCHEDULE) as SchoolWeekSchedule
+        intent?.let {
+            schedule = it.getSerializableExtra(ARG_WEEK_SCHEDULE) as SchoolWeekSchedule
+        }
 
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = container
-        mViewPager?.adapter = mSectionsPagerAdapter
+        daySchedulePagerAdapter = DaySchedulePagerAdapter(supportFragmentManager)
+        schedule_viewpager.adapter = daySchedulePagerAdapter
 
         tabs.removeAllTabs()
         for (i in 0 until schedule.daySchedules.size) {
             tabs.addTab(tabs.newTab().setText(schedule.daySchedules[i].dayOfWeek))
         }
-        mSectionsPagerAdapter?.notifyDataSetChanged()
+        daySchedulePagerAdapter.notifyDataSetChanged()
 
-        mViewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(mViewPager))
+        schedule_viewpager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(schedule_viewpager))
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class DaySchedulePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
             return SchoolDayFragment.newInstance(schedule.daySchedules[position])
         }

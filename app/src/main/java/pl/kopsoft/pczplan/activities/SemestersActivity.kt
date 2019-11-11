@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_terms.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -18,14 +17,20 @@ import pl.kopsoft.pczplan.models.Semester
 import java.io.IOException
 
 
-class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerViewClickListener {
+class SemestersActivity : NetworkActivity(), GetSemestersListener, RecyclerViewClickListener {
 
-    private lateinit var yearSemesters: List<Semester>
+    private var yearSemesters: List<Semester>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_terms)
-        GetTerms(this).execute()
+    }
+
+    override fun onNetworkAvailable() {
+        super.onNetworkAvailable()
+        if (yearSemesters == null) {
+            GetTerms(this).execute()
+        }
     }
 
     override fun onSemestersGet(semesters: List<Semester>) {
@@ -34,9 +39,11 @@ class SemestersActivity : AppCompatActivity(), GetSemestersListener, RecyclerVie
     }
 
     override fun onRecyclerItemClick(view: View, position: Int) {
-        val intent = Intent(this, GroupsActivity::class.java)
-        intent.putExtra(GroupsActivity.TERM_BUNDLE_ID, yearSemesters[position])
-        startActivity(intent)
+        yearSemesters?.get(position)?.let {
+            val intent = Intent(this, GroupsActivity::class.java)
+            intent.putExtra(GroupsActivity.TERM_BUNDLE_ID, it)
+            startActivity(intent)
+        }
     }
 
     internal class GetTerms(private val listener: GetSemestersListener) :
