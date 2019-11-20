@@ -19,6 +19,7 @@ import pl.kopsoft.pczplan.models.*
 import java.io.IOException
 import java.util.regex.Pattern
 
+
 class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListener, RecyclerViewClickListener {
     private var retrievedGroups: List<Group>? = null
     private lateinit var semester: Semester
@@ -57,11 +58,23 @@ class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListen
         super.onRestoreInstanceState(savedInstanceState)
     }
 
-    override fun onGroupsGet(groups: List<Group>) {
-        val sorted = groups.sortedBy { it.groupName }
+    override fun onGroupsGet(groups: ArrayList<Group>) {
         val processedGroups = ArrayList<Group>()
 
-        sorted.forEach {
+        var lastGroup: Group? = null
+        prefs.lastSelectedGroupName?.let { last ->
+            groups.forEach { e ->
+                if (e.groupName == last) {
+                    lastGroup = e
+                }
+            }
+        }
+        lastGroup?.let {
+            groups.remove(it)
+            processedGroups.add(it)
+        }
+
+        groups.forEach {
             if (it.groupName.isNotEmpty())
                 processedGroups.add(it)
         }
@@ -72,10 +85,13 @@ class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListen
 
     override fun onRecyclerItemClick(view: View, position: Int) {
         retrievedGroups?.let {
+            val group = it[position]
+            prefs.lastSelectedGroupName = group.groupName
+
             val link = if (semester.isStationary) {
-                LinkHelper.STATIONARY_TTS + "/" + it[position].hyperlink
+                LinkHelper.STATIONARY_TTS + "/" + group.hyperlink
             } else {
-                LinkHelper.NONSTATIONARY_TTS + "/" + it[position].hyperlink
+                LinkHelper.NONSTATIONARY_TTS + "/" + group.hyperlink
             }
             if (isConnected()) {
                 GetSchoolWeekSchedule(
@@ -96,9 +112,9 @@ class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListen
     }
 
     class GetGroups(private val listener: GetGroupsListener) :
-        AsyncTask<String, Void, List<Group>>() {
+        AsyncTask<String, Void, ArrayList<Group>>() {
 
-        override fun doInBackground(vararg hyperlinks: String): List<Group> {
+        override fun doInBackground(vararg hyperlinks: String): ArrayList<Group> {
             var document: Document? = null
             try {
                 document = Jsoup.connect(hyperlinks[0]).timeout(5000).get()
@@ -117,10 +133,10 @@ class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListen
                     groups.add(g)
                 }
             }
-            return groups
+            return ArrayList(groups.sortedBy { it.groupName })
         }
 
-        override fun onPostExecute(subjects: List<Group>) {
+        override fun onPostExecute(subjects: ArrayList<Group>) {
             super.onPostExecute(subjects)
             listener.onGroupsGet(subjects)
         }
@@ -131,12 +147,11 @@ class GroupsActivity : NetworkActivity(), GetGroupsListener, GetSchoolWeekListen
         private val isStationary: Boolean
     ) : AsyncTask<String, Void, SchoolWeekSchedule>() {
 
-        override fun doInBackground(vararg strings: String): SchoolWeekSchedule {
+        override fun doInBackground(vararg stringParams: String): SchoolWeekSchedule {
             var document: Document? = null
             try {
-                document = Jsoup.connect(strings[0]).timeout(5000).get()
+                document = Jsoup.connect(stringParams[0]).timeout(5000).get()
             } catch (e: IOException) {
-
             }
 
             val weekSchedule = SchoolWeekSchedule()

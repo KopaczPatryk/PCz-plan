@@ -4,5 +4,5 @@ package pl.kopsoft.pczplan.interfaces
 import pl.kopsoft.pczplan.models.Group
 
 interface GetGroupsListener {
-    fun onGroupsGet(groups: List<Group>)
+    fun onGroupsGet(groups: ArrayList<Group>)
 }

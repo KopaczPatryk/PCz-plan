@@ -10,8 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import pl.kopsoft.pczplan.R
 
 
-abstract class NetworkActivity : AppCompatActivity() {
-
+abstract class NetworkActivity : BaseActivity() {
     private lateinit var snackbar: Snackbar
     private lateinit var connectivityManager: ConnectivityManager
 

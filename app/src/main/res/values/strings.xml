@@ -10,4 +10,5 @@
     <string name="subjecttype_proj">Proj.</string>
     <string name="subjecttype_lang">Lang.</string>
     <string name="no_internet">No internet connection</string>
+    <string name="tut_last_selected_group">Last selected group is now displayed at first position</string>
 </resources>
